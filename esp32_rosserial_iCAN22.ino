@@ -20,15 +20,14 @@ const char* password = "Duybeo123";
 // Set the rosserial socket server IP address
 IPAddress server(192,168,11,3);
 // Set the rosserial socket server port
-const uint16_t serverPort = 11411
+const uint16_t serverPort = 11411;
 
 ros::NodeHandle nh;
 // Make a chatter publisher
-std_msgs::String str_msg;
-ros::Publisher chatter("chatter", &str_msg);
+sensor_msgs::PointCloud2 pc_msgs = pc2_sample::construct_pc_msgs();
 
-// Be polite and say hello
-char hello[13] = "Hello!";
+ros::Publisher chatter("chatter", &pc_msgs);
+
 
 void setup()
 {
@@ -67,12 +66,11 @@ void loop()
   if (nh.connected()) {
     Serial.println("Connected");
     // Say hello
-    str_msg.data = hello;
-    chatter.publish( &str_msg );
+    chatter.publish( &pc_msgs );
   } else {
     Serial.println("Not Connected");
   }
   nh.spinOnce();
   // Loop exproximativly at 1Hz
-  delay(1000);
+  delay(3000);
 }
