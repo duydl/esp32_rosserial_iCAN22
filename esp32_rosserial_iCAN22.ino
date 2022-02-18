@@ -72,5 +72,5 @@ void loop()
   }
   nh.spinOnce();
   // Loop exproximativly at 1Hz
-  delay(3000);
+  delay(1000);
 }
