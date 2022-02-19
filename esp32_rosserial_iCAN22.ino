@@ -21,16 +21,18 @@ const char* password = "Duybeo123";
 IPAddress server(192,168,11,3);
 // Set the rosserial socket server port
 const uint16_t serverPort = 11411;
-
+sensor_msgs::PointCloud2* pc_msgs = pc2_sample::construct_pc_msgs();
 ros::NodeHandle nh;
 // Make a chatter publisher
-sensor_msgs::PointCloud2 pc_msgs;
+ 
 
-ros::Publisher chatter("chatter", &pc_msgs);
+
+ros::Publisher chatter("chatter", pc_msgs);
 
 
 void setup()
 {
+  
   // Use ESP8266 serial to monitor the process
   Serial.begin(9600);
   Serial.println();
@@ -62,13 +64,13 @@ void setup()
 
 void loop()
 {
-  pc_msgs = pc2_sample::construct_pc_msgs();
+  (pc_msgs->header).stamp = ros::Time();
   // Serial.println("%d", pc_msgs.data[3]);
   if (nh.connected()) {
     Serial.println("Connected");
     
     // Say hello
-    chatter.publish( &pc_msgs );
+    chatter.publish( pc_msgs );
   } else {
     Serial.println("Not Connected");
   }
