@@ -24,7 +24,7 @@ const uint16_t serverPort = 11411;
 
 ros::NodeHandle nh;
 // Make a chatter publisher
-sensor_msgs::PointCloud2 pc_msgs = pc2_sample::construct_pc_msgs();
+sensor_msgs::PointCloud2 pc_msgs;
 
 ros::Publisher chatter("chatter", &pc_msgs);
 
@@ -62,9 +62,11 @@ void setup()
 
 void loop()
 {
-
+  pc_msgs = pc2_sample::construct_pc_msgs();
+  // Serial.println("%d", pc_msgs.data[3]);
   if (nh.connected()) {
     Serial.println("Connected");
+    
     // Say hello
     chatter.publish( &pc_msgs );
   } else {
