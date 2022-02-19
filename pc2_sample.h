@@ -4,9 +4,8 @@
 
 namespace pc2_sample {
 
-sensor_msgs::PointCloud2 construct_pc_msgs () {
+void construct_pc_msgs (sensor_msgs::PointCloud2& pc ) {
 
-sensor_msgs::PointCloud2 pc;
 pc.header.stamp = ros::Time();
 pc.height = 1;
 pc.width = 2;
@@ -54,6 +53,5 @@ std::vector<uint8_t> v = {155, 203, 110, 63, 221, 124, 215, 191, 23, 109, 44, 62
 pc.data_length=64; 
 pc.data = &v[0];
 
-return pc;
 }
 }
