@@ -15,8 +15,8 @@
 #include <WiFi.h>
 #include "pc2_sample.h"
 
-const char* ssid     = "Buffalo - G - 4350*";
-const char* password = "Duybeo123";
+const char* ssid     = "***";
+const char* password = "***";
 // Set the rosserial socket server IP address
 IPAddress server(192,168,11,3);
 // Set the rosserial socket server port
@@ -24,7 +24,7 @@ const uint16_t serverPort = 11411;
 
 ros::NodeHandle nh;
 // Make a chatter publisher
-sensor_msgs::PointCloud2 pc_msgs = pc2_sample::construct_pc_msgs();
+sensor_msgs::PointCloud2 pc_msgs;
 
 ros::Publisher chatter("chatter", &pc_msgs);
 
@@ -55,17 +55,16 @@ void setup()
   // Another way to get IP
   Serial.print("IP = ");
   Serial.println(nh.getHardware()->getLocalIP());
-
-  // Start to be polite
   nh.advertise(chatter);
 }
 
 void loop()
 {
+  pc_msgs = pc2_sample::construct_pc_msgs();
 
   if (nh.connected()) {
     Serial.println("Connected");
-    // Say hello
+    
     chatter.publish( &pc_msgs );
   } else {
     Serial.println("Not Connected");
